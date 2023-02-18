@@ -13,4 +13,4 @@ Check out Bot's READMEs for installing instructions
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Altaro97/Discord-Bots/blob/main/Maxi's%20Slave/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Altaro97/Discord-Bots/blob/main/LICENSE) file for details
