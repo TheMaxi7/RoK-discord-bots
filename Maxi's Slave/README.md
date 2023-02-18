@@ -61,7 +61,7 @@ For any bugs or any suggestions feel free to contact me in Discord (Vulcan Maxi#
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Altaro97/Discord-Bots/blob/main/LICENSE) file for details
 
 
 
