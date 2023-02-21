@@ -49,7 +49,7 @@ async def user_command(ctx):
 
     while True:
         try:
-            reaction, user = await bot.wait_for('reaction_add', timeout=20, check=check)
+            reaction, user = await bot.wait_for('reaction_add', timeout=172800, check=check)
         except asyncio.TimeoutError:
             embed= discord.Embed(title = "Registered players", description="Following players make sure to be in TLG before Friday reset to be registered:")
             for x in accepted_users:
@@ -88,11 +88,16 @@ async def user_command(ctx):
 
         await message.edit(embed=embed)
 
-        
+@bot.event
+async def on_message(msg = discord.Message):
+    content = msg.content
+    if content == "close":
+        await bot.close()
+
+     
 async def main():
     await bot.start(TOKEN, reconnect=True)
 
 asyncio.run(main())
-
 
 
