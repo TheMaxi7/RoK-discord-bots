@@ -5,7 +5,7 @@ This repo contains a collection of discord bots i made to help the Rise of Kingd
 ## Bots list
 
 - Maxi's Slave is a `/` commands bot that given a spreadsheet as database displays governors stats from their in-game ID and more;
-- Ark Slave is a `/` commands bot that helps people register for events just reacting;
+- Ark Slave is a on message commands bot that helps people register for events just reacting;
 
 ## Installing
 
