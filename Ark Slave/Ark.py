@@ -14,18 +14,7 @@ bot = commands.Bot(command_prefix="/", intents=intents)
 objDiscordGuildID = discord.Object(id=int(GUILD))
 
 
-@bot.hybrid_command(name="ark")
-async def user_command(ctx):
-    interaction: discord.Interaction = ctx.interaction
-    data = interaction.data
-    options = data["options"]
-    option = options[0]
-    value = option["value"]
-    text_entered = value.split(" ")
-    match_time = text_entered[0]
-    match_day = text_entered[1]
-    day_number = text_entered[2]
-    month = text_entered[3]
+async def send_signup(channel:None, match_time:str, match_day:str, day_number:str, month:str):
     accepted_users = []
     denied_users = []
     in_doubt_users = []
@@ -35,7 +24,7 @@ async def user_command(ctx):
     embed.add_field(name="✅Accepted", value="\u200b", inline=True)
     embed.add_field(name="❌Declined", value="\u200b", inline=True)
     embed.add_field(name="❔In doubt", value="\u200b", inline=True)
-    message = await ctx.send(embed=embed)
+    message = await channel.send(embed=embed)
     await message.add_reaction("✅")
     await message.add_reaction("❌")
     await message.add_reaction("❔")
@@ -49,15 +38,10 @@ async def user_command(ctx):
 
     while True:
         try:
-            reaction, user = await bot.wait_for('reaction_add', timeout=172800, check=check)
+            reaction, user = await bot.wait_for('reaction_add', check=check)
         except asyncio.TimeoutError:
-            embed= discord.Embed(title = "Registered players", description="Following players make sure to be in TLG before Friday reset to be registered:")
-            for x in accepted_users:
-                embed.add_field(name=x, value=" ")
-            await ctx.send(embed=embed)
             break
 
-  
         if user.id in reacted_users:
 
             prev_reaction = reacted_users[user.id]
@@ -91,13 +75,23 @@ async def user_command(ctx):
 @bot.event
 async def on_message(msg = discord.Message):
     content = msg.content
-    if content == "close":
+    channel=msg.channel
+    if msg.content.startswith('Ark'):
+        event_details=msg.content.split(" ")
+        match_time = event_details[1]
+        match_day = event_details[2]
+        day_number = event_details[3]
+        month = event_details[4]
+        print(match_time, match_day, day_number, month)
+        await send_signup(channel, match_time, match_day, day_number, month)
+    elif content == "close":
         await bot.close()
-
      
 async def main():
     await bot.start(TOKEN, reconnect=True)
 
 asyncio.run(main())
+
+
 
 
