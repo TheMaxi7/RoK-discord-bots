@@ -26,14 +26,14 @@ It creates a list of registered users using reactions.
 
 ## How to use
 
-At this stage, use the `/ark` command and enter time of the match, day of the match, day number of the match and month. Then press enter to start the event.
+At this stage, use the `Ark` command and enter time of the match, day of the match, day number of the match and month. Then press enter to start the event.
 Now users can react to it, based on which reaction they choose, they will be added to the respective column.
-At the end of the timout, the bot will automatically send an embed with the list of registered users.
+Type then `close` to close the bot.
 
 
 ## Features
 
-- `/ark` command, creates "reaction collector" event for events;
+- `Ark` command, creates "reaction collector" event for Ark of Osiris matches;
 - `close` message to force close;
 
 ## Upcoming Features
