@@ -1,4 +1,4 @@
-# Maxi's Slave
+# Ark Slave
 
 This is a open source discord bot built to help user registration in Rise of Kingdoms events such as Ark of Osiris game mode.
 It creates a list of registered users using reactions.
