@@ -48,7 +48,8 @@ If you want to show different informations then you will need to modify the `Sta
 
 - `/stats` command, given player ID prints KvK stats of that specific player. Also binds discord ID to that rok ID;
 - `stats` message prints KvK stats of the ID curently binded to your discord ID;
-- `/top` command, given ranks, prints cumulated stats
+- `stats <governor ID>` message is like the `/stats` command. Users can simply write a message to get both their stats and their ID registered for future uses;
+- `/top` command, given ranks, prints cumulated kingdom stats;
 - `/help` command, displays list of all possible commands
 
 ## Upcoming Features
