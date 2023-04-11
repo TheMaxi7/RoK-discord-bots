@@ -111,7 +111,6 @@ async def top(ctx):
             
 @bot.event
 async def on_message(msg: discord.Message):
-
     author=msg.author
     author_id = author.id
     content = msg.content
@@ -126,6 +125,19 @@ async def on_message(msg: discord.Message):
                await send_id_stats(gov_id= id_from_db, channel=channel)
             else:
                 await channel.send(content = "Your ID has not been registered yet. Use /stats command to save your ID before using 'stats'.")
+    elif len(content) == 2:
+        request = content[0].lower()
+        id = content[1]
+        if request == "stats" and id:
+            try:
+                player_id = int(id)
+            except Exception as e:
+                print(e)
+            if kvk_stats.get_player_stats(player_id):
+                await send_id_stats(gov_id= player_id, channel=channel)
+                await discord_db.save_dc_id(author_id, player_id)
+            else:
+                await channel.send("Bro, this ID does not exist")
 
 @bot.hybrid_command(name="help")
 async def help(ctx):
