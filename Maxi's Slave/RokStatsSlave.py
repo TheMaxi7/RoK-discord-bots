@@ -29,6 +29,12 @@ async def send_id_stats(gov_id: int, interaction: discord.Interaction=None, chan
         embed = discord.Embed(color=0xff6bfa) #Band color
         embed.title = f"KvK Personal stats"   #Message Title
         description = f""  #Message description
+        if gov_id == 26143013:
+            embed.set_image(url="https://cdn.discordapp.com/attachments/1076154233197445201/1098997553837645864/BAG32_COTTO.jpg")
+        elif gov_id == 62432900:
+            embed.set_image(url="https://cdn.discordapp.com/attachments/1076154233197445201/1098998640988659774/Screenshot_2023-04-21_174757.png")  # Personalized images for kd mascottes
+        elif gov_id == 42365158:
+            embed.set_image(url="https://cdn.discordapp.com/attachments/1076154233197445201/1098999395837546526/clown_face.png")
         keysInFooter = [] #dummy footer fields
         for header, content in player_stats.items():
             if header in field_keys:
