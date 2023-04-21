@@ -105,7 +105,7 @@ async def top(ctx):
         print (e)
     if ranks:
         if ranks > 450:
-            await interaction.response.send_message("We track only top 450 players by power. Enter a value less than 450", ephemeral=True)
+            await interaction.response.send_message("We track only top 300 players by power. Enter a value less than 300", ephemeral=True)
         else:
             await send_top_x_stats(value, interaction)
             
@@ -124,7 +124,7 @@ async def on_message(msg: discord.Message):
             if id_from_db:
                await send_id_stats(gov_id= id_from_db, channel=channel)
             else:
-                await channel.send(content = "Your ID has not been registered yet. Use /stats command to save your ID before using 'stats'.")
+                await channel.send(content = "Your ID has not been registered yet. Write 'stats <your id>' to save your ID before using 'stats'. (Example: stats 12345678)")
     elif len(content) == 2:
         request = content[0].lower()
         id = content[1]
