@@ -21,4 +21,4 @@ This project is licensed under the MIT License - see the [LICENSE](https://gith
 
 ## Contacts
 
-Feel free to contact me on discord (**Vulcan Maxi#7453**) for any kind of problem/request or simply open an issue :)
+Feel free to contact me on discord (**@themaxi7**) for any kind of problem/request or simply open an issue :)
