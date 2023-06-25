@@ -5,7 +5,7 @@ import discord
 import os
 from dotenv import load_dotenv
 from discord.ext import commands
-from sheets import KvkStats, DiscordDB
+from sheets import KvkStats, DiscordDB, TopX
 
 
 load_dotenv()
