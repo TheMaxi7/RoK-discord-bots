@@ -24,7 +24,7 @@ For the moment there is only one command, may add more in future.
 1. Create an application and the bot following the official Discord documentation [here](https://discord.com/developers/docs/intro);
 2. Add the bot to your server (suggested to test it in a Test Server before using it);
 3. Change the `.env` file values according to the Discord documentation;
-4. Change the values in the `sheets.py` file to connect the bot to the spreadsheet you want;
+4. Change the values in the `sheets.py` file to connect the bot to the spreadsheet you want (how to create your `service_account.json` file [here](https://docs.gspread.org/en/v5.9.0/oauth2.html));
 5. Start using it.
 
 ## Important notes
