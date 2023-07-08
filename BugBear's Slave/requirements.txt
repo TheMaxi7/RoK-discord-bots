@@ -1,0 +1,5 @@
+discord.py==2.3.1
+gspread==5.7.2
+python-dotenv==1.0.0
+requests==2.28.1
+StringProgressBar==1.1.1
