@@ -2,7 +2,7 @@
 
 ![image](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 
-# Discord-Bots 
+# RoK-discord-bots 
 
 This repo contains a collection of discord bots i made to help the Rise of Kingdom community (mainly) and others. Feel free to fork this repo and use the code as a base for your projects.
 
