@@ -1,6 +1,6 @@
 # BugBear's Slave
 
-This is a open source discord bot that uses rokstats.online API to get all the stats.
+This is a open source discord bot that uses [rokstats.online](https://rokstats.online/) API to get all the stats.
 For the moment it uses only on message commands to work.
 
 ## Required 
