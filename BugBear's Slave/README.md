@@ -31,9 +31,9 @@ For the moment it uses only on message commands to work.
 
 ## Important notes
 
-Write `stats` <player ID> to get the following response: 
+Write `stats <player ID>`  to get the following response: 
 
-![Output]
+![Screenshot 2023-07-08 120559](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/d5e15db0-5449-4de7-8041-72c975adaaad)
 
 If you want to show different informations then you will need to modify the `slave.py` file.
 
@@ -44,11 +44,11 @@ This bot is completely different from all the others because it uses APIs to get
 ## Contact and Support
 
 For any bugs or any suggestions feel free to contact me in Discord (@themaxi7).
-For any questions regarding the stats reach out to @ibugbear on Discord. 
+For any questions regarding the stats tracking or APIs reach out to @ibugbear on Discord. 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Altaro97/RoK-discord-bots/blob/main/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Altaro97/Discord-Bots/blob/main/LICENSE) file for details
 
 
 
