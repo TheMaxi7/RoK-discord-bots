@@ -71,7 +71,10 @@ async def send_id_stats(response, author_id, interaction: discord.Interaction=No
     deadsbar = progressBar.filledBar(total, int(deads_percentage), size)
 
     user = await bot.fetch_user(author_id)
-    userpfp = user.avatar
+    if user.avatar:
+        userpfp = user.avatar
+    else:
+        userpfp = "https://media.discordapp.net/attachments/1076154233197445201/1127610236744773792/discord-black-icon-1.png"
 
     if response:
         embed = discord.Embed(color=0x00ffe5)
