@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 from discord.ext import commands
 from sheets import KvkStats, DiscordDB, TopX
-
+from StringProgressBar import progressBar
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -20,31 +20,50 @@ kvk_stats = KvkStats()
 discord_db = DiscordDB()
 topx = TopX()
 bot.remove_command("help")
+
 #This function gets data from sheets and embeds message in chat
-async def send_id_stats(gov_id: int, interaction: discord.Interaction=None, channel=None):
-    field_keys = ["Rank", "Kills Required", "Deads Required", "T4 Kills", "T5 Kills", "Deads"]
-    footer_keys = ["Kills percentage", "Deads percentage"]  
+async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction=None, channel=None):
     player_stats = kvk_stats.get_player_stats(gov_id)
+    player_name = player_stats["Governor"]
+    player_id = player_stats["Governor ID"]
+    player_rank = player_stats["Rank"]
+    player_snapshot_power = player_stats["Starting Power"]
+    player_current_points = player_stats["Current Points"]
+    player_status = player_stats["Current Status"]
+    player_t4kills = player_stats["T4 Kills"]
+    player_t5kills = player_stats["T5 Kills"]
+    player_total_kills = int(player_t4kills) + int(player_t5kills)
+    player_total_deads = int(player_stats["Deads"])
+    kills_percentage = player_total_kills * 100 // int(player_stats["Kills Required"])
+    deads_percentage =  player_total_deads * 100 // int(player_stats["Deads Required"])
+    total = 100
+    size = 15    
+    killsbar = progressBar.filledBar(total, kills_percentage, size)
+    deadsbar = progressBar.filledBar(total, int(deads_percentage), size)
+    user = await bot.fetch_user(author_id)
+    if user.avatar:
+        userpfp = user.avatar
+    else:
+        userpfp = "https://media.discordapp.net/attachments/1076154233197445201/1127610236744773792/discord-black-icon-1.png"
+
     if player_stats:
-        embed = discord.Embed(color=0xff6bfa) #Band color
-        embed.title = f"KvK Personal stats"   #Message Title
-        description = f""  #Message description
-        if gov_id == 26143013:
-            embed.set_image(url="https://cdn.discordapp.com/attachments/1076154233197445201/1098997553837645864/BAG32_COTTO.jpg")
-        elif gov_id == 62432900:
-            embed.set_image(url="https://cdn.discordapp.com/attachments/1076154233197445201/1098998640988659774/Screenshot_2023-04-21_174757.png")  # Personalized images for kd mascottes
-        elif gov_id == 42365158:
-            embed.set_image(url="https://cdn.discordapp.com/attachments/1076154233197445201/1098999395837546526/clown_face.png")
-        keysInFooter = [] #dummy footer fields
-        for header, content in player_stats.items():
-            if header in field_keys:
-                embed.add_field(name=header, value=content if content != "" else "No data", inline=True)
-            elif header not in footer_keys:
-                description += f"{header}: {content if content != '' else '0'}\n"    
-            else:
-                keysInFooter.append(f"{header}: {content if content != '' else '0'}")
+        embed = discord.Embed(color=0xf90101)
+
+        embed.title = f"KvK Personal stats"
+
+        embed.set_thumbnail(url=f"{userpfp}")
+
+        description = f"Governor: {player_name if player_name else '0'}\nPower snapshot: {player_snapshot_power if player_snapshot_power else '0'}\nGovernor ID: {player_id if player_id else '0'}\nCurrent points: {player_current_points if player_current_points else '0'}\nAccount status: {player_status if player_status else '0'}\n" 
         embed.description = description
-        embed.set_footer(text=" | ".join(keysInFooter))
+
+        embed.add_field(name="Rank", value=player_rank, inline=True)
+        embed.add_field(name="Kills required", value=player_stats["Kills Required"], inline=True)
+        embed.add_field(name="Deads required", value=player_stats["Deads Required"], inline=True)
+        embed.add_field(name="CURRENT KILLS", value=f"{player_total_kills}\n{killsbar[0]}   {killsbar[1]}%", inline=False)
+        embed.add_field(name="CURRENT DEADS", value=f"{player_total_deads}\n{deadsbar[0]}   {deadsbar[1]}%", inline=False)
+        
+        embed.set_footer(text="Bot by @themaxi7")
+
         if interaction:
             await interaction.response.send_message(embed=embed)
         elif channel:
@@ -94,7 +113,7 @@ async def stats(ctx):
     except Exception as e:
         print(e)
     if player_id :
-        await send_id_stats(player_id,interaction)
+        await send_id_stats(player_id, author_id,interaction)
         await discord_db.save_dc_id(author_id,player_id)
 
 @bot.hybrid_command(name="top")
@@ -128,7 +147,7 @@ async def on_message(msg: discord.Message):
         if request == "stats":
             id_from_db = discord_db.get_id_from_discord(author_id=author_id)
             if id_from_db:
-               await send_id_stats(gov_id= id_from_db, channel=channel)
+               await send_id_stats(gov_id= id_from_db, author_id=author_id, channel=channel)
             else:
                 await channel.send(content = "Your ID has not been registered yet. Write 'stats <your id>' to save your ID before using 'stats'. (Example: stats 12345678)")
     elif len(content) == 2:
@@ -140,7 +159,7 @@ async def on_message(msg: discord.Message):
             except Exception as e:
                 print(e)
             if kvk_stats.get_player_stats(player_id):
-                await send_id_stats(gov_id= player_id, channel=channel)
+                await send_id_stats(gov_id= player_id, author_id=author_id, channel=channel)
                 await discord_db.save_dc_id(author_id, player_id)
             else:
                 await channel.send("Bro, this ID does not exist")
