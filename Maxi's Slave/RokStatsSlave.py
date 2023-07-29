@@ -41,17 +41,13 @@ async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction
     killsbar = progressBar.filledBar(total, kills_percentage, size)
     deadsbar = progressBar.filledBar(total, int(deads_percentage), size)
     user = await bot.fetch_user(author_id)
-    if user.avatar:
-        userpfp = user.avatar
-    else:
-        userpfp = "https://media.discordapp.net/attachments/1076154233197445201/1127610236744773792/discord-black-icon-1.png"
 
     if player_stats:
         embed = discord.Embed(color=0xf90101)
 
         embed.title = f"KvK Personal stats"
-
-        embed.set_thumbnail(url=f"{userpfp}")
+        #In game profile pic
+        embed.set_thumbnail(url=f"https://rokstats.online/img/governors/{gov_id}.jpg")
 
         description = f"Governor: {player_name if player_name else '0'}\nPower snapshot: {player_snapshot_power if player_snapshot_power else '0'}\nGovernor ID: {player_id if player_id else '0'}\nCurrent points: {player_current_points if player_current_points else '0'}\nAccount status: {player_status if player_status else '0'}\n" 
         embed.description = description
@@ -59,8 +55,8 @@ async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction
         embed.add_field(name="Rank", value=player_rank, inline=True)
         embed.add_field(name="Kills required", value=player_stats["Kills Required"], inline=True)
         embed.add_field(name="Deads required", value=player_stats["Deads Required"], inline=True)
-        embed.add_field(name="CURRENT KILLS", value=f"{player_total_kills}\n{killsbar[0]}   {killsbar[1]}%", inline=False)
-        embed.add_field(name="CURRENT DEADS", value=f"{player_total_deads}\n{deadsbar[0]}   {deadsbar[1]}%", inline=False)
+        embed.add_field(name="CURRENT KILLS", value=f"{player_total_kills}\n{killsbar[0]}   {int(killsbar[1])}%", inline=False)
+        embed.add_field(name="CURRENT DEADS", value=f"{player_total_deads}\n{deadsbar[0]}   {int(deadsbar[1])}%", inline=False)
         
         embed.set_footer(text="Bot by @themaxi7")
 
