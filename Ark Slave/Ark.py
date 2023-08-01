@@ -7,30 +7,29 @@ import asyncio
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD_ID')
+ALLIANCE_TAG='TEST' #change alliance tag 
+THUMBNAIL_URL='PASTE VALID URL HERE' #change url to display whatever image 
+
 intents = discord.Intents.default()
 intents.message_content = True
-intents.reactions = True
+intents.reactions = True 
 bot = commands.Bot(command_prefix="/", intents=intents)
 objDiscordGuildID = discord.Object(id=int(GUILD))
-accepted_players = []
+accepted_players=[]
 
-
-async def send_accepted_players(accepted: list, channel=None):
-    await channel.send("Following players make sure to be in TLG before Thursday reset for registration:\n\n")
+async def send_accepted_players(accepted:list,channel=None):
+    await channel.send(f"Following players make sure to be in {ALLIANCE_TAG} before Thursday reset for registration:\n\n")
     for x in accepted:
         await channel.send(f"<@{x}>\n")
 
-
-async def send_signup(channel: None, match_time: str, match_day: str, day_number: str, month: str, accepted: list):
+async def send_signup(channel:None, match_time:str, match_day:str, day_number:str, month:str, accepted:list):
     accepted_users = []
     denied_users = []
     count = 0
     reacted_users = {}
-    await channel.send("<@&912098334330748972>\nReact to be added to respective column\n")
-    embed = discord.Embed(color=0xa30000, title="TLG Ark of Osiris",
-                          description=match_time + " " + match_day + " " + day_number + " " + month)
-    embed.set_thumbnail(
-        url="https://media.discordapp.net/attachments/1015409348022898720/1058154316449447986/2359_battle_pfp_14.png?width=810&height=810")
+    await channel.send("<@&1095425554058051734>\nReact to be added to respective column\n")
+    embed = discord.Embed(color=0xa30000, title=f"{ALLIANCE_TAG} ARK", description=match_time+" "+match_day+" "+ day_number+" "+month)
+    embed.set_thumbnail(url=f"{THUMBNAIL_URL}")
     embed.add_field(name=f"✅ ACCEPTED {count}/30", value="\u200b", inline=True)
     embed.add_field(name="❌ DECLINED", value="\u200b", inline=True)
     message = await channel.send(embed=embed)
@@ -54,18 +53,19 @@ async def send_signup(channel: None, match_time: str, match_day: str, day_number
                     if prev_reaction == "✅":
                         accepted_users.remove(user.name)
                         accepted.remove(user.id)
-                        count -= 1
+                        count -=1
                     elif prev_reaction == "❌":
                         denied_users.remove(user.name)
 
                 await message.remove_reaction(prev_reaction, user)
+
 
             reacted_users[user.id] = reaction.emoji
 
             if reaction.emoji == "✅":
                 accepted_users.append(user.name)
                 accepted.append(user.id)
-                count += 1
+                count +=1
             elif reaction.emoji == "❌":
                 denied_users.append(user.name)
 
@@ -77,29 +77,25 @@ async def send_signup(channel: None, match_time: str, match_day: str, day_number
             await send_accepted_players(accepted_users, channel=channel)
             await bot.close()
 
-
 @bot.event
-async def on_message(msg=discord.Message):
+async def on_message(msg = discord.Message):
     content = msg.content
-    channel = msg.channel
+    channel=msg.channel
     if msg.content.startswith('Ark'):
-        event_details = msg.content.split(" ")
+        event_details=msg.content.split(" ")
         match_time = event_details[1]
         match_day = event_details[2]
         day_number = event_details[3]
         month = event_details[4]
-        await send_signup(channel, match_time, match_day, day_number, month, accepted_players)
+        await send_signup(channel, match_time, match_day, day_number, month,accepted_players)
     elif content == "close signup":
-        await send_accepted_players(accepted_players, channel=channel)
+        await send_accepted_players(accepted_players,channel=channel)
         await bot.close()
-
-
+     
 async def main():
     await bot.start(TOKEN, reconnect=True)
 
-
 asyncio.run(main())
-
 
 
 
