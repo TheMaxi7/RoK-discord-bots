@@ -22,8 +22,7 @@ discord_db = DiscordDB()
 requirements = Requirements()
 bot.remove_command("help")
 
-TODAY_DATE = today = date.today()
-START_DATE = "2023-07-23"
+START_DATE = "2023-07-24"
 SNAPSHOT_DATE = "2023-06-28"
 
 async def find_status(kills_percentage, deads_percentage):
@@ -43,7 +42,8 @@ async def find_status(kills_percentage, deads_percentage):
         return "Unknown"
 
 async def check_id(gov_id: int):
-    url = f"https://rokstats.online/api/governor/{gov_id}/summary?apiKey={ROKSTATS_API}&startDate={START_DATE}&endDate={TODAY_DATE}&initialSnapshotDate={SNAPSHOT_DATE}"
+    today = date.today()
+    url = f"https://rokstats.online/api/governor/{gov_id}/summary?apiKey={ROKSTATS_API}&startDate={START_DATE}&endDate={today}&initialSnapshotDate={SNAPSHOT_DATE}"
     response = requests.get(url)
     data = response.json()
     return data if data else False
@@ -108,14 +108,14 @@ async def on_message(msg: discord.Message):
     author_id = author.id
     content = msg.content
     channel = msg.channel
-
+    today = date.today()
     content = content.split(" ")
     if len(content) == 1:
         request = content[0].lower()
         if request == "stats":
             id_from_db = discord_db.get_id_from_discord(author_id=author_id)
             if id_from_db:
-               url=f"https://rokstats.online/api/governor/{id_from_db}/summary?apiKey={ROKSTATS_API}&startDate={START_DATE}&endDate={TODAY_DATE}&initialSnapshotDate={SNAPSHOT_DATE}"
+               url=f"https://rokstats.online/api/governor/{id_from_db}/summary?apiKey={ROKSTATS_API}&startDate={START_DATE}&endDate={today}&initialSnapshotDate={SNAPSHOT_DATE}"
                response = requests.get(url)
                await send_id_stats(response.json(), channel=channel, author_id=int(author_id))
             else:
@@ -140,4 +140,5 @@ async def main():
     await bot.start(TOKEN, reconnect=True)
 
 asyncio.run(main())
+
 
