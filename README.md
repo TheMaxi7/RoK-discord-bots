@@ -22,4 +22,5 @@ This project is licensed under the MIT License - see the [LICENSE](https://gith
 
 ## Contacts
 
-Feel free to contact me on discord (**@themaxi7**) for any kind of problem/request or simply open an issue :)
+If you want to try the bots and/or need to reach out to me for any kind of problem/request feel free to join the [test discord server](https://discord.gg/EH7QhwxqkW) or simply open an issue :)
+
