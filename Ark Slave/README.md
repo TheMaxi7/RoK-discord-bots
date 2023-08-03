@@ -42,7 +42,7 @@ Type then `close` to close the bot.
 
 ## Contact and Support
 
-For any bugs or any suggestions feel free to contact me in Discord (Vulcan Maxi#7453).
+For any bugs or any suggestions feel free to join my [test discord server](https://discord.gg/EH7QhwxqkW), add me on discord (@TheMaxi7) or simply open an issue.
 
 ## License
 
