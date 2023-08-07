@@ -24,3 +24,6 @@ This project is licensed under the MIT License - see the [LICENSE](https://gith
 
 If you want to try the bots and/or need to reach out to me for any kind of problem/request feel free to join the [test discord server](https://discord.gg/EH7QhwxqkW) or simply open an issue :)
 
+In case you would like to support me:
+
+[![image](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/Altaro97?country.x=IT&locale.x=it_IT)
