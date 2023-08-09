@@ -1,13 +1,17 @@
 import gspread
-
-      
 sa = gspread.service_account()
+
+#Change these names to setup your bot
+SPREADSHEET_NAME = "KvK Discord Bot Stats"
+STATS_SHEET = "Rankings"
+TOPX_SHEET = "TopX"
+DISCORDID_SHEET = "DiscordID"
 
 class KvkStats():   
     def __init__(self) -> None:
-        self.filename = "Spreadsheet name"
+        self.filename = SPREADSHEET_NAME
         self.spreadsheet = sa.open(self.filename)
-        self.main_worksheet = self.spreadsheet.worksheet("Sheet name")
+        self.main_worksheet = self.spreadsheet.worksheet(f"{STATS_SHEET}")
     def get_player_stats(self, gov_id: int):
         str_id = str(gov_id)
         found_cell = self.main_worksheet.find(str_id)
@@ -18,12 +22,11 @@ class KvkStats():
 
 class TopX():
     def __init__(self) -> None:
-        self.filename = "Spreadsheet name"
+        self.filename = SPREADSHEET_NAME
         self.spreadsheet = sa.open(self.filename)
-        self.main_worksheet = self.spreadsheet.worksheet("Sheet name")
+        self.main_worksheet = self.spreadsheet.worksheet(f"{TOPX_SHEET}")
     def top_x(self, ranks: int):
-        #Cant loop 500+ times each time bot is triggered
-        #Get all values we need, then we loop. 
+
         t4_column = self.main_worksheet.col_values(7)
         t5_column = self.main_worksheet.col_values(8)
         deads_column = self.main_worksheet.col_values(9)
@@ -39,9 +42,9 @@ class TopX():
 
 class DiscordDB():
     def __init__(self) -> None:
-        self.filename = "Spreadsheet name"
+        self.filename = SPREADSHEET_NAME
         self.spreadsheet = sa.open(self.filename)
-        self.main_worksheet = self.spreadsheet.worksheet("Sheet name")
+        self.main_worksheet = self.spreadsheet.worksheet(f"{DISCORDID_SHEET}")
     def get_id_from_discord(self, author_id: int):
         author_id_str= str(author_id)
         cell = self.main_worksheet.find(author_id_str)
