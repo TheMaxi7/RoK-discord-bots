@@ -43,7 +43,7 @@ This bot is completely different from all the others because it uses APIs to get
 
 ## Contact and Support
 
-For any bugs or any suggestions feel free to contact me in Discord (@themaxi7).
+For any bugs or any suggestions feel free to join my [test discord server](https://discord.gg/EH7QhwxqkW), add me on discord (@TheMaxi7) or simply open an issue.
 For any questions regarding the stats tracking or APIs reach out to @ibugbear on Discord. 
 
 ## License

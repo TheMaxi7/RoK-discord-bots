@@ -31,7 +31,7 @@ For the moment there is only one command, may add more in future.
 
 Given the `/stats` command + the ingame player ID, gives the following output: 
 
-![Output](https://user-images.githubusercontent.com/102146744/216848991-9e62e4dc-cf14-4125-b393-639ad551c660.png)
+![Screenshot 2023-08-03 210002](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/5414aa7a-d9e6-4aac-a875-5fa704eb87e1)
 
 With a spreadsheet organized with the following columns: 
 
@@ -52,13 +52,9 @@ If you want to show different informations then you will need to modify the `Sta
 - `/top` command, given ranks, prints cumulated kingdom stats;
 - `/help` command, displays list of all possible commands
 
-## Upcoming Features
-
-- Whatever kd needs
-
 ## Contact and Support
 
-For any bugs or any suggestions feel free to contact me in Discord (Vulcan Maxi#7453).
+For any bugs or any suggestions feel free to join my [test discord server](https://discord.gg/EH7QhwxqkW), add me on discord (@TheMaxi7) or simply open an issue.
 
 ## License
 
