@@ -13,11 +13,7 @@ For the moment there is only one command, may add more in future.
 	DISCORD_TOKEN=XXX
 	```
 3. `service_account.json` file to work with gspread package. 
-4. Following packages:
-	- gspread:
-	- python-dotenv;
-	- discord.py;
-	- requests.
+4. All the packages included in `requirements.txt`
 
 ## Installing
 
