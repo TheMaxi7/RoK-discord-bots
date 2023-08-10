@@ -1,7 +1,6 @@
 # HoH Slave
 
-This is a open source discord bot that uses [rokstats.online](https://rokstats.online/) API to get all the stats.
-For the moment it uses only on message commands to work.
+This is a discord bot designed to assist kingdom leaderships in keeping track of their kingdom dead troops. The bot uses image processing and text recognition to extract information from screenshots of Hall of Heroes and then presents the information in a formatted embed within a Discord channel. In addition can write the stats extracted in a google spreadsheet.
 
 ## Required 
 
@@ -27,6 +26,8 @@ For the moment it uses only on message commands to work.
 ## Important notes
 
 Attach a screenshot of your Hall of Heroes to get the following response: 
+
+![Screenshot 2023-08-10 201359](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/5084256a-cc17-49e9-aad7-d353e8fa19d5)
 
 If the user attaches the picture and in the same message writes `Register <player ID>` the deads will be registered in a google spreadsheet.
 
