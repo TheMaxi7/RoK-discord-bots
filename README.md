@@ -10,10 +10,10 @@ This repo contains a collection of discord bots i made to help the Rise of Kingd
 
 - [Maxi's Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/Maxi's%20Slave) is hybrid commands bot that given a spreadsheet as database displays governors stats from their in-game ID; It takes as input governor IDs using `/` commands or simple user messages to display stats and update a small users database for other uses;
 - [Ark Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/Ark%20Slave) is a on message commands bot that helps people register for events using message reactions;
-- [BugBear's Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/BugBear's%20Slave) is a on message commands bot that uses [rokstats.online](https://rokstats.online/) API to get players data and displays it.
-
+- [BugBear's Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/BugBear's%20Slave) is a on message commands bot that uses [rokstats.online](https://rokstats.online/) API to get players data and displays it;
+- [HoH Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/HoH%20Slave) is a on message bot that given a picture and a governor ID converts the Hall of Heroes image to text and creates a record in a google spreadsheet.
+  
 ## Next bots
-- HoH Slave that given a picture and a governor ID converts Hall of Heroes image to text and creates a record in a spreadsheet/xls file;
 - Speedups Slave to calculate how many days of speedups you have from a picture;
 - Materials Slave to calculate how many legendary materials of each type you have starting from a pic;
 - Tokens Slave to calculate your total amount of rss starting from a pic;
