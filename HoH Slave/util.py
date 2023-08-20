@@ -22,7 +22,7 @@ class TroopDetection:
                 y1 > y1_box - self.tolerance * (y2_box - y1_box) and
                 x2 < x2_box + self.tolerance * (x2_box - x1_box) and
                 y2 < y2_box + self.tolerance * (y2_box - y1_box)):
-                x1_amount, y1_amount, x2_amount, y2_amount = x1, y1, x2, y2
+                x1_amount, y1_amount, x2_amount, y2_amount = int(x1), int(y1), int(x2), int(y2)
 
         for i in range(len(troop_types_detections)):
             x1, y1, x2, y2, class_id = troop_types_detections[i]

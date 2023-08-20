@@ -14,6 +14,7 @@ This is a discord bot designed to assist kingdom leaderships in keeping track of
 	```
 3. `service_account.json` file to work with gspread package. 
 4. Packages included in `requirements.txt`
+5. Download and install Tesseract OCR on your machine
 
 ## Installing
 
