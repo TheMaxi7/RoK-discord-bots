@@ -14,15 +14,16 @@ This is a discord bot designed to assist kingdom leaderships in keeping track of
 	```
 3. `service_account.json` file to work with gspread package. 
 4. Packages included in `requirements.txt`
-5. Download and install Tesseract OCR on your machine
+5. Download and install Tesseract OCR on your machine and add it to Environment variables
 
 ## Installing
 
 1. Create an application and the bot following the official Discord documentation [here](https://discord.com/developers/docs/intro);
 2. Add the bot to your server (suggested to test it in a Test Server before using it in the real server);
 3. Change the `.env` file values according to the Discord documentation;
-4. Change the values in the `utils.py` file to connect the bot to the spreadsheet you want;
-5. Start using it.
+4. Change the values in the `util.py` file to connect the bot to the spreadsheet you want;
+5. Edit path to tesseract.exe in `util.py`
+6. Start using it.
 
 ## Important notes
 
@@ -32,9 +33,9 @@ Attach a screenshot of your Hall of Heroes to get the following response:
 
 If the user attaches the picture and in the same message writes `Register <player ID>` the deads will be registered in a google spreadsheet.
 
-## Features
+## Disclaimer
 
-Since this bot uses a trained model it can extract text from different size images without any problem. Keep in mind it is not perfect and it can be improved. 
+Since this bot uses a trained model it can extract text from different size images but keep in mind it is not perfect and it can be improved. 
 
 ## Contact and Support
 
