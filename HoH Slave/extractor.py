@@ -9,7 +9,7 @@ from util import TroopDetection
 troop_detection = TroopDetection()
 def extract_deads(image):
     model = YOLO('yolov8n.pt')
-    model = YOLO(r'C:\Users\david\runs\detect\train28\weights\best.pt') 
+    model = YOLO(r'/app/weights/best.pt') #Change path to best.pt accordingly
     troop_tiers = [5, 6, 7, 8, 9]
     troop_types = [1, 2, 3, 4]
     amounts = [0]
