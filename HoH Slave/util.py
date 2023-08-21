@@ -6,6 +6,7 @@ sa = gspread.service_account()
 SPREADSHEET_NAME = "KvK Discord Bot Stats"
 SHEET_NAME = "Hall of Heroes"
 
+pytesseract.pytesseract.tesseract_cmd = r'Path to tesseract.exe' #Change path to tesseract.exe accordingly
 
 class TroopDetection:
     def __init__(self, tolerance=0.1):
