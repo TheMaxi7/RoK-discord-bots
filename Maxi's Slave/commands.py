@@ -1,7 +1,9 @@
 import os
-from dotenv import load_dotenv
 import requests
+from dotenv import load_dotenv
+
 load_dotenv()
+
 APP = os.getenv("APP_ID")
 TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD = os.getenv("GUILD_ID")
@@ -18,7 +20,7 @@ commands = [
                 "name": "governor_id",
                 "description": "The governor ID",
                 "required": True,
-                "type": 4, 
+                "type": 4,
             },
         ],
     },
@@ -31,7 +33,7 @@ commands = [
                 "name": "rank",
                 "description": "How many ranks",
                 "required": True,
-                "type": 4, 
+                "type": 4,
             },
         ],
     },
@@ -42,16 +44,13 @@ commands = [
     },
 ]
 
-
-                                
-                         
-#To update commands
+# To update commands
 for command in commands:
-    # This create or update the slash commands
-    headers = { "Authorization": f"Bot {TOKEN}" }
+    # This creates or updates the slash commands
+    headers = {"Authorization": f"Bot {TOKEN}"}
     response = requests.post(url, headers=headers, json=command)
     if response.status_code >= 400:
         print(response.content)
         raise Exception("Request Error!")
     else:
-        print("command updated")  
+        print("Command updated")

@@ -1,8 +1,7 @@
-
-
 import asyncio
 import discord
 import os
+
 from dotenv import load_dotenv
 from discord.ext import commands
 from sheets import KvkStats, DiscordDB, TopX
@@ -11,6 +10,7 @@ from StringProgressBar import progressBar
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD_ID')
+
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -21,8 +21,17 @@ discord_db = DiscordDB()
 topx = TopX()
 bot.remove_command("help")
 
-#This function gets data from sheets and embeds message in chat
+
 async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction=None, channel=None):
+    """
+    Sends individual player stats in an embed message.
+
+    Args:
+        gov_id (int): Governor ID.
+        author_id: Discord user ID.
+        interaction (discord.Interaction, optional): Discord interaction for responding to slash commands. Defaults to None.
+        channel (discord.TextChannel, optional): Discord channel for sending the message. Defaults to None.
+    """    
     player_stats = kvk_stats.get_player_stats(gov_id)
     player_name = player_stats["Governor"]
     player_id = player_stats["Governor ID"]
@@ -41,13 +50,19 @@ async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction
     killsbar = progressBar.filledBar(total, kills_percentage, size)
     deadsbar = progressBar.filledBar(total, int(deads_percentage), size)
     user = await bot.fetch_user(author_id)
+    if user.avatar:
+        userpfp = user.avatar
+    else:
+        userpfp = "https://media.discordapp.net/attachments/1076154233197445201/1127610236744773792/discord-black-icon-1.png"
 
     if player_stats:
         embed = discord.Embed(color=0xf90101)
 
         embed.title = f"KvK Personal stats"
-        #In game profile pic
-        embed.set_thumbnail(url=f"https://rokstats.online/img/governors/{gov_id}.jpg")
+        embed.set_author(name="TheMaxi7", url="https://github.com/TheMaxi7",
+                             icon_url="https://avatars.githubusercontent.com/u/102146744?v=4")
+         
+        #embed.set_thumbnail(url=f"https://rokstats.online/img/governors/{gov_id}.jpg")
 
         description = f"Governor: {player_name if player_name else '0'}\nPower snapshot: {player_snapshot_power if player_snapshot_power else '0'}\nGovernor ID: {player_id if player_id else '0'}\nCurrent points: {player_current_points if player_current_points else '0'}\nAccount status: {player_status if player_status else '0'}\n" 
         embed.description = description
@@ -58,7 +73,8 @@ async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction
         embed.add_field(name="CURRENT KILLS", value=f"{player_total_kills}\n{killsbar[0]}   {int(killsbar[1])}%", inline=False)
         embed.add_field(name="CURRENT DEADS", value=f"{player_total_deads}\n{deadsbar[0]}   {int(deadsbar[1])}%", inline=False)
         
-        embed.set_footer(text="Bot by @themaxi7")
+        embed.set_footer(text=f"Requested by @{author_id}",
+                             icon_url=f"{userpfp}")
 
         if interaction:
             await interaction.response.send_message(embed=embed)
@@ -74,6 +90,14 @@ async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction
             await channel.send("Bro, this ID does not exist", ephemeral=True)
 
 async def send_top_x_stats(value:int, interaction:discord.Interaction=None, channel=None):
+    """
+    Sends cumulative top X stats in an embed message.
+
+    Args:
+        value (int): Top X value.
+        interaction (discord.Interaction, optional): Discord interaction for responding to slash commands. Defaults to None.
+        channel (discord.TextChannel, optional): Discord channel for sending the message. Defaults to None.
+    """
     top_x_stats = topx.top_x(value)
     title = f"KvK stats of Top "+ str(value) +" by power"
     fields = ["Total T4 Kills", "Total T5 Kills", "Total Deads"]
@@ -97,6 +121,9 @@ async def send_top_x_stats(value:int, interaction:discord.Interaction=None, chan
 
 @bot.hybrid_command(name="stats")
 async def stats(ctx):
+    """
+    Command to fetch and display player's KvK stats.
+    """
     interaction: discord.Interaction = ctx.interaction
     author_id = interaction.user.id
     data = interaction.data
@@ -114,6 +141,9 @@ async def stats(ctx):
 
 @bot.hybrid_command(name="top")
 async def top(ctx):
+    """
+    Command to fetch and display cumulative KvK stats of top X players.
+    """    
     interaction: discord.Interaction = ctx.interaction
     data = interaction.data
     options = data["options"]
@@ -132,6 +162,9 @@ async def top(ctx):
             
 @bot.event
 async def on_message(msg: discord.Message):
+    """
+    Event handler for processing messages.
+    """
     author=msg.author
     author_id = author.id
     content = msg.content
@@ -162,6 +195,9 @@ async def on_message(msg: discord.Message):
 
 @bot.hybrid_command(name="help")
 async def help(ctx):
+    """
+    Command to display bot commands and usage.
+    """
     embed = discord.Embed(title="Commands list", description=" ")
     embed.add_field(name="`/stats`", value="Shows KvK stats of the ID you enter. Also saves it for future uses")
     embed.add_field(name="`stats`", value="Shows KvK stats of the ID saved in the database for your Discord ID")

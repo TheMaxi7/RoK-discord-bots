@@ -1,19 +1,20 @@
 import discord
 import asyncio
 import os
+import aiohttp
+import io
+
 from dotenv import load_dotenv
 from discord.ext import commands
 from PIL import Image
-import aiohttp
-import io
 from extractor import extract_deads
 from util import Spreadsheet
-
 
 load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD_ID')
+THUMBNAIL_URL = "https://discord.com/channels/1071839293833740418/1076154233197445201/1143851045827661884"
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -24,6 +25,18 @@ bot.remove_command("help")
 sheet = Spreadsheet()
 
 async def send_embed(t4_deads, t5_deads, description, channel=None, author=None, author_id=None, player_id=None):
+    """
+    Send an embedded message with dead troop information.
+
+    Args:
+        t4_deads (int): Total T4 dead troops.
+        t5_deads (int): Total T5 dead troops.
+        description (str): Description of the dead troops.
+        channel (discord.TextChannel, optional): Channel to send the message to. Defaults to None.
+        author (discord.User, optional): Author of the message. Defaults to None.
+        author_id (int, optional): Author's ID. Defaults to None.
+        player_id (int, optional): Governor's player ID. Defaults to None.
+    """
     if t4_deads is not None and t5_deads is not None and description is not None:
         
         if player_id:
@@ -38,12 +51,14 @@ async def send_embed(t4_deads, t5_deads, description, channel=None, author=None,
 
         embed = discord.Embed(color=0xf90101)
         embed.title = "Hall of Heroes"
-        
-        embed.set_thumbnail(url=f"{userpfp}")
+        embed.set_author(name="TheMaxi7", url="https://github.com/TheMaxi7",
+                             icon_url="https://avatars.githubusercontent.com/u/102146744?v=4")
+        embed.set_thumbnail(url=f"{THUMBNAIL_URL}")
         embed.description = description
         embed.add_field(name="TOT T4 DEAD", value=t4_deads, inline=True)
         embed.add_field(name="TOT T5 DEAD", value=t5_deads, inline=True)     
-        embed.set_footer(text="Bot by @themaxi7") 
+        embed.set_footer(text=f"Requested by @{author_id}",
+                             icon_url=f"{userpfp}")
         
         if channel is None:
             raise ValueError("Channel is not specified.")
@@ -58,6 +73,12 @@ async def send_embed(t4_deads, t5_deads, description, channel=None, author=None,
 
 @bot.event
 async def on_message(message):
+    """
+    Event handler for received messages.
+
+    Args:
+        message (discord.Message): Received message.
+    """
     player_id = None
     if message.author == bot.user:
         return  

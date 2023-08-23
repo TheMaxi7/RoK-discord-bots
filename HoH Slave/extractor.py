@@ -7,9 +7,20 @@ from ultralytics import YOLO
 from util import TroopDetection
 
 troop_detection = TroopDetection()
+
 def extract_deads(image):
+    """
+    Extract dead troops from an image.
+
+    Args:
+        image: The input image.
+
+    Returns:
+        tuple: Total T4 deads, total T5 deads, description.
+    """
     model = YOLO('yolov8n.pt')
-    model = YOLO(r'/app/weights/best.pt') #Change path to best.pt accordingly
+    model = YOLO(r'/app/weights/best.pt')  # Change path to best.pt accordingly
+
     troop_tiers = [5, 6, 7, 8, 9]
     troop_types = [1, 2, 3, 4]
     amounts = [0]
@@ -19,13 +30,13 @@ def extract_deads(image):
     troop_amounts_detections = []
     boxes = []
 
-    tiers = {5:'T1', 6:'T2', 7:'T3', 8:'T4', 9:'T5'}
-    types = {1:'Archers', 2:'Cavalry', 3:'Infantry', 4:'Siege'}
+    tiers = {5: 'T1', 6: 'T2', 7: 'T3', 8: 'T4', 9: 'T5'}
+    types = {1: 'Archers', 2: 'Cavalry', 3: 'Infantry', 4: 'Siege'}
 
-    results = model(image)[0] 
+    results = model(image)[0]
 
     for result in results.boxes.data.tolist():
-        im_array = results.plot() 
+        im_array = results.plot()
         x1, y1, x2, y2, score, class_id = result
 
         if int(class_id) in troop_tiers:
@@ -38,14 +49,15 @@ def extract_deads(image):
             boxes.append([x1, y1, x2, y2])
 
     if (len(boxes) != len(troop_tiers_detections) or
-    len(boxes) != len(troop_types_detections) or
-    len(boxes) != len(troop_amounts_detections)):
+            len(boxes) != len(troop_types_detections) or
+            len(boxes) != len(troop_amounts_detections)):
         return None, None, None
-    hall_of_heroes_dic = {}
-   
-    for box in boxes:
 
-        x1_amount, y1_amount, x2_amount, y2_amount, troop_type, troop_tier = troop_detection.get_amount(troop_tiers_detections, troop_types_detections, troop_amounts_detections, box)
+    hall_of_heroes_dic = {}
+
+    for box in boxes:
+        x1_amount, y1_amount, x2_amount, y2_amount, troop_type, troop_tier = troop_detection.get_amount(
+            troop_tiers_detections, troop_types_detections, troop_amounts_detections, box)
         amount_crop = im_array[int(y1_amount):int(y2_amount), int(x1_amount):int(x2_amount)]
         amount_crop_gray = cv2.cvtColor(amount_crop, cv2.COLOR_BGR2GRAY)
         _, amount_crop_thresh = cv2.threshold(amount_crop_gray, 100, 255, cv2.THRESH_BINARY)
@@ -58,7 +70,7 @@ def extract_deads(image):
             print(f"Error processing tier: {troop_tier}, type: {troop_type}, dead_amount: {dead_amount}")
 
     total_t4_deads, total_t5_deads = 0, 0
-    description = ""  
+    description = ""
     for tier in sorted(hall_of_heroes_dic.keys(), reverse=True):
         tier_results = hall_of_heroes_dic[tier]
 
@@ -70,6 +82,6 @@ def extract_deads(image):
             elif tier == 9.0:
                 total_t5_deads += int(dead_amount)
 
-            description += f"{tiers[tier]} {types[troop_type]}: {dead_amount}\n"  # Correct indentation
+            description += f"{tiers[tier]} {types[troop_type]}: {dead_amount}\n"
 
     return total_t4_deads, total_t5_deads, description

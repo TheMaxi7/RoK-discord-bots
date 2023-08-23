@@ -2,6 +2,7 @@ import asyncio
 import discord
 import os
 import requests
+
 from datetime import date
 from dotenv import load_dotenv
 from discord.ext import commands
@@ -9,12 +10,13 @@ from sheets import DiscordDB, Requirements
 from StringProgressBar import progressBar
 
 load_dotenv()
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD_ID')
-ROKSTATS_API = os.getenv('ROKSTATS_APY')
+ROKSTATS_API = os.getenv('ROKSTATS_API')
 
 intents = discord.Intents.default()
-intents.message_content = True 
+intents.message_content = True
 bot = commands.Bot(command_prefix="/", intents=intents)
 objDiscordGuildID = discord.Object(id=int(GUILD))
 
@@ -26,6 +28,16 @@ START_DATE = "2023-07-24"
 SNAPSHOT_DATE = "2023-06-28"
 
 async def find_status(kills_percentage, deads_percentage):
+    """
+    Determine player status based on kill and death percentages.
+
+    Args:
+        kills_percentage (int): Percentage of kills.
+        deads_percentage (int): Percentage of deaths.
+
+    Returns:
+        str: Player status.
+    """
     if kills_percentage >= 100 and deads_percentage >= 100:
         return "MGE Competitor"
     elif kills_percentage > 50 and deads_percentage > 100:
@@ -42,6 +54,16 @@ async def find_status(kills_percentage, deads_percentage):
         return "Unknown"
 
 async def check_id(gov_id: int):
+    """
+    Check a governor's stats using ROKSTATS API.
+
+    Args:
+        gov_id (int): Governor's ID.
+
+    Returns:
+        dict: Governor's statistics.
+        False: If governor not found.
+    """
     today = date.today()
     url = f"https://rokstats.online/api/governor/{gov_id}/summary?apiKey={ROKSTATS_API}&startDate={START_DATE}&endDate={today}&initialSnapshotDate={SNAPSHOT_DATE}"
     response = requests.get(url)
@@ -49,7 +71,15 @@ async def check_id(gov_id: int):
     return data if data else False
 
 async def send_id_stats(response, author_id, interaction: discord.Interaction=None, channel=None):
- 
+    """
+    Send governor's stats information.
+
+    Args:
+        response (dict): Governor's statistics.
+        author_id (int): Author's ID.
+        interaction (discord.Interaction, optional): Interaction object. Defaults to None.
+        channel (discord.TextChannel, optional): Channel to send the message to. Defaults to None.
+    """
     last_scan = response['SnapshotTime']
     date_only = last_scan.split('T')[0]
     gov_id = response['GovernorId']
@@ -77,19 +107,37 @@ async def send_id_stats(response, author_id, interaction: discord.Interaction=No
     
     if response:
         embed = discord.Embed(color=0x00ffe5)
-        embed.title = f"KvK Personal stats"
+        embed.title = "KvK Personal stats"
+        embed.set_author(name="TheMaxi7", url="https://github.com/TheMaxi7",
+                        icon_url="https://avatars.githubusercontent.com/u/102146744?v=4")
         embed.set_thumbnail(url=f"https://rokstats.online/img/governors/{gov_id}.jpg")
-        description = f"Governor: {name if name else '0'}\nPower snapshot: {power_initial_snapshot if power_initial_snapshot else '0'}\nCurrent power: {power if power else '0'}\nGovernor ID: {gov_id if gov_id else '0'}\nAlliance: {alliance if alliance else '0'}\nAccount KP: {kp if kp else '0'}\nAccount deads: {totdeads if totdeads else '0'}\nAccount status: {player_status if player_status else '0'}\n"
 
+        description = (
+            f"Governor: {name if name else '0'}\n"
+            f"Power snapshot: {power_initial_snapshot if power_initial_snapshot else '0'}\n"
+            f"Current power: {power if power else '0'}\n"
+            f"Governor ID: {gov_id if gov_id else '0'}\n"
+            f"Alliance: {alliance if alliance else '0'}\n"
+            f"Account KP: {kp if kp else '0'}\n"
+            f"Account deads: {totdeads if totdeads else '0'}\n"
+            f"Account status: {player_status if player_status else '0'}\n"
+        )
         embed.description = description
 
         embed.add_field(name="KILLS REQUIRED", value=kill_req, inline=True)
         embed.add_field(name="DEADS REQUIRED", value=deads_req, inline=True)
 
-        embed.add_field(name="CURRENT KILLS", value=f"{CurrentKills}\n{killsbar[0]}   {int(killsbar[1])}%", inline=False)
-        embed.add_field(name="CURRENT DEADS", value=f"{CurrentDeads}\n{deadsbar[0]}   {int(deadsbar[1])}%", inline=False)
+        kills_field = f"{CurrentKills}\n{killsbar[0]}   {int(killsbar[1])}%"
+        embed.add_field(name="CURRENT KILLS", value=kills_field, inline=False)
 
-        embed.set_footer(text=f"Scan date: {date_only}\n\nData from www.rokstats.online made by @ibugbear\nBot by @themaxi7")
+        deads_field = f"{CurrentDeads}\n{deadsbar[0]}   {int(deadsbar[1])}%"
+        embed.add_field(name="CURRENT DEADS", value=deads_field, inline=False)
+
+        footer_text = (
+            f"Scan date: {date_only} - Requested by @{author_id}\n\n"
+            f"Data from www.rokstats.online made by @ibugbear\n"
+        )
+        embed.set_footer(text=footer_text, icon_url="https://rokstats.online/ico/apple-icon-76x76.png")
 
         if interaction:
             await interaction.response.send_message(embed=embed)
@@ -104,6 +152,12 @@ async def send_id_stats(response, author_id, interaction: discord.Interaction=No
 
 @bot.event
 async def on_message(msg: discord.Message):
+    """
+    Event handler for received messages.
+
+    Args:
+        msg (discord.Message): Received message.
+    """
     author=msg.author
     author_id = author.id
     content = msg.content
