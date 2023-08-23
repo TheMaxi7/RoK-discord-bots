@@ -30,6 +30,9 @@ At this stage, use the `Ark` command and enter time of the match, day of the mat
 Now users can react to it, based on which reaction they choose, they will be added to the respective column.
 Type then `close` to close the bot.
 
+![arkslave](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/0a8b7212-3b2b-4441-a1b5-3ffde7b9af16)
+
+
 
 ## Features
 
