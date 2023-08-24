@@ -22,8 +22,9 @@ This is a discord bot designed to assist kingdom leaderships in keeping track of
 2. Add the bot to your server (suggested to test it in a Test Server before using it in the real server);
 3. Change the `.env` file values according to the Discord documentation;
 4. Change the values in the `util.py` file to connect the bot to the spreadsheet you want;
-5. Edit path to tesseract.exe in `util.py`
-6. Start using it.
+5. Edit `best.pt` path in `extractor.py`;
+6. Edit path to tesseract.exe in `util.py`;
+7. Start using it.
 
 ## Important notes
 
