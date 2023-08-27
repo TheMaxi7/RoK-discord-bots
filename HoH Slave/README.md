@@ -30,7 +30,8 @@ This is a discord bot designed to assist kingdom leaderships in keeping track of
 
 Attach a screenshot of your Hall of Heroes to get the following response: 
 
-![Screenshot 2023-08-10 201359](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/5084256a-cc17-49e9-aad7-d353e8fa19d5)
+![Screenshot 2023-08-27 115647](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/1e3bd5a4-2d13-4d2b-824c-4ef4ed4e3583)
+
 
 If the user attaches the picture and in the same message writes `Register <player ID>` the deads will be registered in a google spreadsheet.
 
