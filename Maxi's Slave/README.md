@@ -27,7 +27,8 @@ For the moment there is only one command, may add more in future.
 
 Given the `/stats` command + the ingame player ID, gives the following output: 
 
-![Screenshot 2023-08-03 210002](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/5414aa7a-d9e6-4aac-a875-5fa704eb87e1)
+![Screenshot 2023-08-27 133759](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/b7921f06-e91e-42f1-8e85-41507c186faa)
+
 
 With a spreadsheet organized with the following columns: 
 
