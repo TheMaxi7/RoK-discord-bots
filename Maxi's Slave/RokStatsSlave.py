@@ -22,7 +22,7 @@ topx = TopX()
 bot.remove_command("help")
 
 
-async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction=None, channel=None):
+async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction=None, channel=None, author=None):
     """
     Sends individual player stats in an embed message.
 
@@ -58,22 +58,22 @@ async def send_id_stats(gov_id: int, author_id, interaction: discord.Interaction
     if player_stats:
         embed = discord.Embed(color=0xf90101)
 
-        embed.title = f"KvK Personal stats"
+        embed.title = f"KvK Personal stats :chart_with_upwards_trend: "
         embed.set_author(name="TheMaxi7", url="https://github.com/TheMaxi7",
                              icon_url="https://avatars.githubusercontent.com/u/102146744?v=4")
          
         #embed.set_thumbnail(url=f"https://rokstats.online/img/governors/{gov_id}.jpg")
-
+        embed.set_thumbnail(url=f"{userpfp}")
         description = f"Governor: {player_name if player_name else '0'}\nPower snapshot: {player_snapshot_power if player_snapshot_power else '0'}\nGovernor ID: {player_id if player_id else '0'}\nCurrent points: {player_current_points if player_current_points else '0'}\nAccount status: {player_status if player_status else '0'}\n" 
         embed.description = description
 
-        embed.add_field(name="Rank", value=player_rank, inline=True)
+        embed.add_field(name=":trophy: Rank", value=player_rank, inline=True)
         embed.add_field(name="Kills required", value=player_stats["Kills Required"], inline=True)
         embed.add_field(name="Deads required", value=player_stats["Deads Required"], inline=True)
-        embed.add_field(name="CURRENT KILLS", value=f"{player_total_kills}\n{killsbar[0]}   {int(killsbar[1])}%", inline=False)
-        embed.add_field(name="CURRENT DEADS", value=f"{player_total_deads}\n{deadsbar[0]}   {int(deadsbar[1])}%", inline=False)
+        embed.add_field(name=":crossed_swords: CURRENT KILLS", value=f"{player_total_kills} | {killsbar[0]}   {int(killsbar[1])}%", inline=False)
+        embed.add_field(name="\n:skull: CURRENT DEADS", value=f"{player_total_deads}  | {deadsbar[0]}   {int(deadsbar[1])}%", inline=False)
         
-        embed.set_footer(text=f"Requested by @{author_id}",
+        embed.set_footer(text=f"Requested by @{author.name}",
                              icon_url=f"{userpfp}")
 
         if interaction:
@@ -126,6 +126,7 @@ async def stats(ctx):
     """
     interaction: discord.Interaction = ctx.interaction
     author_id = interaction.user.id
+    author=msg.author
     data = interaction.data
     options = data["options"]
     option = options[0]
@@ -136,7 +137,7 @@ async def stats(ctx):
     except Exception as e:
         print(e)
     if player_id :
-        await send_id_stats(player_id, author_id,interaction)
+        await send_id_stats(player_id, author_id,interaction,author)
         await discord_db.save_dc_id(author_id,player_id)
 
 @bot.hybrid_command(name="top")
@@ -176,7 +177,7 @@ async def on_message(msg: discord.Message):
         if request == "stats":
             id_from_db = discord_db.get_id_from_discord(author_id=author_id)
             if id_from_db:
-               await send_id_stats(gov_id= id_from_db, author_id=author_id, channel=channel)
+               await send_id_stats(gov_id= id_from_db, author_id=author_id, channel=channel, author=author)
             else:
                 await channel.send(content = "Your ID has not been registered yet. Write 'stats <your id>' to save your ID before using 'stats'. (Example: stats 12345678)")
     elif len(content) == 2:
@@ -188,7 +189,7 @@ async def on_message(msg: discord.Message):
             except Exception as e:
                 print(e)
             if kvk_stats.get_player_stats(player_id):
-                await send_id_stats(gov_id= player_id, author_id=author_id, channel=channel)
+                await send_id_stats(gov_id= player_id, author_id=author_id, channel=channel, author=author)
                 await discord_db.save_dc_id(author_id, player_id)
             else:
                 await channel.send("Bro, this ID does not exist")
