@@ -126,7 +126,7 @@ async def stats(ctx):
     """
     interaction: discord.Interaction = ctx.interaction
     author_id = interaction.user.id
-    author=msg.author
+    author=ctx.author
     data = interaction.data
     options = data["options"]
     option = options[0]
@@ -137,7 +137,7 @@ async def stats(ctx):
     except Exception as e:
         print(e)
     if player_id :
-        await send_id_stats(player_id, author_id,interaction,author)
+        await send_id_stats(player_id, author_id,interaction,author=author)
         await discord_db.save_dc_id(author_id,player_id)
 
 @bot.hybrid_command(name="top")
