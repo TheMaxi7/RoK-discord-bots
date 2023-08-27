@@ -19,7 +19,7 @@ def extract_deads(image):
         tuple: Total T4 deads, total T5 deads, description.
     """
     model = YOLO('yolov8n.pt')
-    model = YOLO(r'/app/weights/best.pt')  # Change path to best.pt accordingly
+    model = YOLO(r'...\best.pt')  # Change path to best.pt accordingly
 
     troop_tiers = [5, 6, 7, 8, 9]
     troop_types = [1, 2, 3, 4]

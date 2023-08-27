@@ -14,7 +14,7 @@ load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD_ID')
-THUMBNAIL_URL = "https://discord.com/channels/1071839293833740418/1076154233197445201/1143851045827661884"
+THUMBNAIL_URL = "https://cdn.discordapp.com/attachments/1138502242526298285/1142903710717051021/HallOfHeroes_thumbnail.jpg"
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -50,14 +50,14 @@ async def send_embed(t4_deads, t5_deads, description, channel=None, author=None,
 
 
         embed = discord.Embed(color=0xf90101)
-        embed.title = "Hall of Heroes"
+        embed.title = ":crossed_swords: Hall of Heroes :crossed_swords:"
         embed.set_author(name="TheMaxi7", url="https://github.com/TheMaxi7",
                              icon_url="https://avatars.githubusercontent.com/u/102146744?v=4")
         embed.set_thumbnail(url=f"{THUMBNAIL_URL}")
         embed.description = description
-        embed.add_field(name="TOT T4 DEAD", value=t4_deads, inline=True)
-        embed.add_field(name="TOT T5 DEAD", value=t5_deads, inline=True)     
-        embed.set_footer(text=f"Requested by @{author_id}",
+        embed.add_field(name="<:t4:1145292870086041640> TOT T4 DEADS", value=t4_deads, inline=True)
+        embed.add_field(name="<:t5:1145292909680283778> TOT T5 DEADS", value=t5_deads, inline=True)     
+        embed.set_footer(text=f"Requested by @{author.name}",
                              icon_url=f"{userpfp}")
         
         if channel is None:
