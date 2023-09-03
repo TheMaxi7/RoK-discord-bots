@@ -28,6 +28,7 @@ This is a discord bot designed to assist players in their peerless scholar sessi
 
 Attach a screenshot of the question you don't know the answer to in order to get the following response: 
 
+![Screenshot 2023-09-03 111331](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/9b5dc0e1-d19d-4d36-b473-dcf07694b9b3)
 
 
 In case the question is new and the answer is not in the database yet, you can write `add new <question>;<answer>` to add it to the database. Make sure there are no typos in it.
@@ -36,6 +37,7 @@ In case the question is new and the answer is not in the database yet, you can w
 
 The bot can extract questions from different image sizes but for best performances you better attach a screenshot of the question only, like this one:
 
+![imagrfghrthre](https://github.com/TheMaxi7/RoK-discord-bots/assets/102146744/a0aa5e4e-b849-4e70-9d38-0c803f85af34)
 
 
 ## Contact and Support
