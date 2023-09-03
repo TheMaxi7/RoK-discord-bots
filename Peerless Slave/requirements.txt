@@ -1,0 +1,8 @@
+discord.py==2.3.2
+fuzzywuzzy==0.18.0
+numpy==1.24.3
+opencv_python_headless==4.8.0.74
+Pillow==10.0.0
+pytesseract==0.3.10
+python-dotenv==1.0.0
+python-Levenshtein
