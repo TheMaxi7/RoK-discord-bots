@@ -12,7 +12,8 @@ This repo contains a collection of discord bots i made to help the Rise of Kingd
 - [Ark Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/Ark%20Slave) is a on message commands bot that helps people register for events using message reactions;
 - [BugBear's Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/BugBear's%20Slave) is a on message commands bot that uses [rokstats.online](https://rokstats.online/) API to get players data and displays it;
 - [HoH Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/HoH%20Slave) is a on message bot that given a picture and a governor ID converts the Hall of Heroes image to text and creates a record in a google spreadsheet.
-  
+- [Peerless Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/Peerless%20Slave) is a on message bot that given a screenshot of a peerless scholar question returns you the correct answer.
+- 
 ## Next bots
 - Speedups Slave to calculate how many days of speedups you have from a picture;
 - Materials Slave to calculate how many legendary materials of each type you have starting from a pic;
