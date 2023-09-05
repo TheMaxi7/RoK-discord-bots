@@ -8,7 +8,7 @@ from fuzzywuzzy import fuzz
 PATH_TO_JSON = 'questions.json'
 #pytesseract.pytesseract.tesseract_cmd = r'Path to tesseract.exe'  # Change path to tesseract.exe accordingly
 
-def are_strings_similar(string1, string2, threshold=85):
+def are_strings_similar(string1, string2, threshold=95):
     """
     Compare two strings and return True if they are similar for at least the specified threshold percentage.
 
@@ -23,57 +23,6 @@ def are_strings_similar(string1, string2, threshold=85):
     similarity_ratio = fuzz.ratio(string1, string2)
     return similarity_ratio >= threshold
 
-def find_extraction_region(image, debug=False):
-    """
-    Compare two strings and return True if they are similar for at least the specified threshold percentage.
-
-    Args:
-        string1 (str): The first string.
-        string2 (str): The second string.
-        threshold (int): The minimum similarity percentage required for a match.
-
-    Returns:
-        bool: True if the strings are similar for at least the threshold percentage, False otherwise.
-    """
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    inverted_image = cv2.bitwise_not(gray_image)
-    _, threshed_image = cv2.threshold(inverted_image, 170, 230, cv2.THRESH_BINARY)
-    blurred_image = cv2.GaussianBlur(threshed_image, (5, 5), 0)
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (10, 10))
-    morphed_image = cv2.morphologyEx(blurred_image, cv2.MORPH_CLOSE, kernel)
-
-    edges_image = cv2.Canny(morphed_image, 150, 600)
-
-    if debug:
-        cv2.imshow("edges", edges_image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-    regions, _ = cv2.findContours(edges_image.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    largest_area = 0
-    selected_region = None
-
-    image_area = image.shape[0] * image.shape[1]
-
-    for region in regions:
-        _, _, region_width, region_height = cv2.boundingRect(region)
-        area = region_width * region_height
-
-        if area > largest_area and area > 0.1 * image_area:
-            largest_area = area
-            selected_region = region
-
-    if selected_region is None:
-        corners = np.array([
-            [0, 0],
-            [image.shape[1] - 1, 0],
-            [image.shape[1] - 1, image.shape[0] - 1],
-            [0, image.shape[0] - 1]
-        ])
-        selected_region = corners.reshape((-1, 1, 2))
-
-    return selected_region
 
 def find_answer_to_question(question):
     """
@@ -87,51 +36,65 @@ def find_answer_to_question(question):
     """
     with open(PATH_TO_JSON, 'r') as file:
         question_answer_pairs = json.load(file)
-    
+
     for pair in question_answer_pairs:
         if are_strings_similar(pair['question'], question):
             return pair['question'], pair['answer']
-    
-    return None, None
 
-def extract_info_from_image(image, debug=False):
+    return "Missing", "Missing"
+
+
+def extract_info_from_image(img, debug=False):
     """
     Extract information from an image.
 
     Args:
-        image (numpy.ndarray): The input image.
+        img (numpy.ndarray): The input image.
         debug (bool): If True, display debug information.
 
     Returns:
         tuple: A tuple containing the extracted question and its corresponding answer.
     """
-    ratio = image.shape[1] // image.shape[0]
-    if 200 < image.shape[0] < 1200:
-        resized_image = cv2.resize(image, (int(1200 * ratio), 1200))
-        image = resized_image
+    target_color = (211, 41, 41)
 
-    extraction_region = find_extraction_region(image)
-    x, y, width, height = cv2.boundingRect(extraction_region)
-    extraction_bounds = (x, y, width, height)
+    if img.shape[2] == 4:
+        img = cv2.cvtColor(img, cv2.COLOR_RGBA2RGB)
 
-    if height > 200:
-        height = height // 3
-        y = y + 75
-        width = width - 60
+    lower_bound = np.array([target_color[0] - 10, target_color[1] - 10, target_color[2] - 10])
+    upper_bound = np.array([target_color[0] + 10, target_color[1] + 10, target_color[2] + 10])
 
-    question_crop = image[y:y+height, x:x+width]
-    question_crop_gray = cv2.cvtColor(question_crop, cv2.COLOR_BGR2GRAY)
-    _, question_crop_inverted = cv2.threshold(question_crop_gray, 120, 255, cv2.THRESH_BINARY)
+    mask = cv2.inRange(img, lower_bound, upper_bound)
 
-    if debug:
-        cv2.imshow('question_crop', question_crop)
-        cv2.imshow('resized_image', image)
-        cv2.imshow('Cropped Image', question_crop_inverted)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    extracted_text = pytesseract.image_to_string(question_crop_inverted, config=r'--oem 3 --psm 7 -l eng tessedit_char_whitelist="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.\?"')
+    for contour in contours:
+        x, y, w, h = cv2.boundingRect(contour)
 
-    question, answer = find_answer_to_question(extracted_text)
+        if w >= 20 and h >= 20:
+            cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    return question, answer
+            blue_start_x = x + w
+            blue_start_y = y
+            blue_end_x = blue_start_x + (w * 19)
+            blue_end_y = blue_start_y + (h * 3)
+
+            cv2.rectangle(img, (blue_start_x, blue_start_y), (blue_end_x, blue_end_y), (255, 0, 0), 2)
+            question_crop = img[int(blue_start_y):int(blue_end_y), int(blue_start_x):int(blue_end_x)]
+            question_crop_gray = cv2.cvtColor(question_crop, cv2.COLOR_BGR2GRAY)
+            _, question_crop_inverted = cv2.threshold(question_crop_gray, 120, 255, cv2.THRESH_BINARY)
+            extracted_text = pytesseract.image_to_string(question_crop_inverted, config=r'--oem 3 --psm 6 -c tessedit_char_whitelist=" 1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.\?"')
+            question, answer = find_answer_to_question(extracted_text)
+
+            if debug:
+                cv2.imshow("Original Image with Rectangles", img)
+                cv2.imshow("question_crop", question_crop)
+                cv2.imshow("question_crop_inverted", question_crop_inverted)
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
+                print(extracted_text)
+
+            return question, answer
+
+    return "Error", "Error"
+      
+  

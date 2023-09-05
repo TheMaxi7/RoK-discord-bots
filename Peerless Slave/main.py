@@ -13,7 +13,7 @@ load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD_ID')
-THUMBNAIL_URL = "https://cdn.discordapp.com/attachments/1076154233197445201/1147647072372260895/IMG_4621.png"
+THUMBNAIL_URL = "https://cdn.discordapp.com/attachments/1076154233197445201/1148652776713375785/scholar.png"
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -107,10 +107,16 @@ async def on_message(message):
         for attachment in message.attachments:
             if attachment.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
                 await message.channel.send(f"Processing {message.author.mention}'s image...")
-                image_bytes = await attachment.read()
+                image_bytes = await attachment.read() 
                 image = Image.open(io.BytesIO(image_bytes))
                 image_np = np.array(image)
                 question, answer = extract_info_from_image(image_np)
+                if question == "Error" and answer == "Error":
+                    await message.channel.send(f"Poor quality image, can not process.")
+                    break
+                elif question == "Missing" and answer == "Missing":
+                    await message.channel.send(f"Sorry, i dont know the answer to this question.")
+                    break
                 await send_embed(question, answer, message.channel, message.author, message.author.id)
             else:
                 await message.channel.send(f"I can only process images, try again.")
