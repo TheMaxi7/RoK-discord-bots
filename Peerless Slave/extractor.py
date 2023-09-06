@@ -60,8 +60,8 @@ def extract_info_from_image(img, debug=False):
     if img.shape[2] == 4:
         img = cv2.cvtColor(img, cv2.COLOR_RGBA2RGB)
 
-    lower_bound = np.array([target_color[0] - 10, target_color[1] - 10, target_color[2] - 10])
-    upper_bound = np.array([target_color[0] + 10, target_color[1] + 10, target_color[2] + 10])
+    lower_bound = np.array([target_color[0] - 20, target_color[1] - 20, target_color[2] - 20])
+    upper_bound = np.array([target_color[0] + 20, target_color[1] + 20, target_color[2] + 20])
 
     mask = cv2.inRange(img, lower_bound, upper_bound)
 
