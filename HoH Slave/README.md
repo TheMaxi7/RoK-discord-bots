@@ -41,7 +41,7 @@ Since this bot uses a trained model it can extract text from different size imag
 
 ## Contact and Support
 
-For any bugs or any suggestions feel free to join my [test discord server](https://discord.gg/EH7QhwxqkW), add me on discord (@TheMaxi7) or simply open an issue.
+If you want to reach out to me for any kind of problem/request feel free to add me on discord (@themaxi7).
 
 ## License
 
