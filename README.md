@@ -1,5 +1,3 @@
-[![status: active](https://github.com/GIScience/badges/raw/master/status/active.svg)](https://github.com/GIScience/badges#active)
-
 ![image](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 
 # RoK-discord-bots 
@@ -30,7 +28,7 @@ This project is licensed under the MIT License - see the [LICENSE](https://gith
 
 ## Contacts
 
-If you want to try the bots and/or need to reach out to me for any kind of problem/request feel free to join the [test discord server](https://discord.gg/EH7QhwxqkW) or simply open an issue :)
+If you want to reach out to me for any kind of problem/request feel free to add me on discord (@themaxi7).
 
 In case you would like to support me:
 
