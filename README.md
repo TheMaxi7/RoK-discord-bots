@@ -13,10 +13,7 @@ This repo contains a collection of discord bots i made to help the Rise of Kingd
 - [Peerless Slave](https://github.com/TheMaxi7/RoK-discord-bots/tree/main/Peerless%20Slave) is a on message bot that given a screenshot of a peerless scholar question returns you the correct answer.
   
 ## Next bots
-- Speedups Slave to calculate how many days of speedups you have from a picture;
-- Materials Slave to calculate how many legendary materials of each type you have starting from a pic;
-- Tokens Slave to calculate your total amount of rss starting from a pic;
-- Many more coming...
+The development of new features and new bots is for now suspended since i quit the game.
   
 ## Installing
 
