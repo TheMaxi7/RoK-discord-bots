@@ -14,7 +14,7 @@ load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD_ID')
-THUMBNAIL_URL = "https://cdn.discordapp.com/attachments/1138502242526298285/1142903710717051021/HallOfHeroes_thumbnail.jpg"
+THUMBNAIL_URL = "https://media.discordapp.net/attachments/1186979000694870059/1186980301264666664/HallOfHeroes_thumbnail.webp?ex=6595388c&is=6582c38c&hm=101a32f909f7b47bd983c4ae99204e99ac142bc07b658ae47ed6094239703c7a&=&format=webp&width=1600&height=900"
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -46,7 +46,7 @@ async def send_embed(t4_deads, t5_deads, description, channel=None, author=None,
         if user.avatar:
             userpfp = user.avatar
         else:
-            userpfp = "https://media.discordapp.net/attachments/1076154233197445201/1127610236744773792/discord-black-icon-1.png"
+            userpfp = "https://media.discordapp.net/attachments/1186979000694870059/1186979049822756958/2ead53f5d9c64c6987ff27141023b96b.jpg?ex=65953762&is=6582c262&hm=21b8fafa1e7689f7ad5df76f4dc9d775c67741ba84319758d388d5eff0990408&=&format=webp&width=512&height=512"
 
 
         embed = discord.Embed(color=0xf90101)
