@@ -13,7 +13,7 @@ load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD_ID')
-THUMBNAIL_URL = "https://cdn.discordapp.com/attachments/1076154233197445201/1148652776713375785/scholar.png"
+THUMBNAIL_URL = "https://media.discordapp.net/attachments/1186979000694870059/1191576595677315112/scholar.webp?ex=65a5f12e&is=65937c2e&hm=713cc1abcc8025d07ff8b89cf9cba62954f292fd82b1f51b31178192486c7ba3&=&format=webp&width=240&height=266"
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -67,7 +67,7 @@ async def send_embed(question, answer, channel=None, author=None, author_id=None
     """
     if question is not None and answer is not None:
         user = await bot.fetch_user(author_id)
-        userpfp = user.avatar if user.avatar else "https://media.discordapp.net/attachments/1076154233197445201/1127610236744773792/discord-black-icon-1.png"
+        userpfp = user.avatar if user.avatar else "https://media.discordapp.net/attachments/1186979000694870059/1186979049822756958/2ead53f5d9c64c6987ff27141023b96b.jpg?ex=659e71e2&is=658bfce2&hm=5861a3fd7edf68277398afadda37bf3f10cebd11c39aeef6ae27e1b5d421a328&=&format=webp&width=512&height=512"
 
         embed = discord.Embed(color=0xf90101)
         embed.title = ":mortar_board: Peerless Slave :mortar_board:"

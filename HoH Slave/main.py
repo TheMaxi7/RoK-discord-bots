@@ -55,8 +55,8 @@ async def send_embed(t4_deads, t5_deads, description, channel=None, author=None,
                              icon_url="https://avatars.githubusercontent.com/u/102146744?v=4")
         embed.set_thumbnail(url=f"{THUMBNAIL_URL}")
         embed.description = description
-        embed.add_field(name="<:t4:1145292870086041640> TOT T4 DEADS", value=t4_deads, inline=True)
-        embed.add_field(name="<:t5:1145292909680283778> TOT T5 DEADS", value=t5_deads, inline=True)     
+        embed.add_field(name="TOT T4 DEADS", value=t4_deads, inline=True)
+        embed.add_field(name="TOT T5 DEADS", value=t5_deads, inline=True)     
         embed.set_footer(text=f"Requested by @{author.name}",
                              icon_url=f"{userpfp}")
         
