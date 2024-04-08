@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-APP = os.getenv("APP_ID")
+APP = os.getenv("APPLICATION_ID")
 TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD = os.getenv("GUILD_ID")
 
