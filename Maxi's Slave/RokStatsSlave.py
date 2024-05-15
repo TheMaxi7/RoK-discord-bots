@@ -4,12 +4,14 @@ import os
 
 from dotenv import load_dotenv
 from discord.ext import commands
-from sheets import KvkStats, DiscordDB, TopX
+from sheets import KvkStats, DiscordDB, TopX, Leaderboard
 from StringProgressBar import progressBar
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('GUILD_ID')
+
+
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -19,6 +21,7 @@ objDiscordGuildID = discord.Object(id=int(GUILD))
 kvk_stats = KvkStats()
 discord_db = DiscordDB()
 topx = TopX()
+leaderboard = Leaderboard()
 bot.remove_command("help")
 
 
@@ -119,6 +122,45 @@ async def send_top_x_stats(value:int, interaction:discord.Interaction=None, chan
         elif channel:
             await channel.send("You need to enter a number greater than 0", ephemeral=True)
 
+async def send_leaderboard(channel=None, author=None):
+    """
+    Sends top 15 players stats in the kd in an embed message.
+
+    Args:
+        channel (discord.TextChannel, optional): Discord channel for sending the message. Defaults to None.
+        author_id: Discord user ID. Defaults to None.
+    """
+    top15 = leaderboard.top_15()
+    title = f"Top 15 leaderboard by contribution"
+    if top15:
+        embed = discord.Embed(color=0xa30000)
+        embed.title= title
+        embed.set_author(name="TheMaxi7", url="https://github.com/TheMaxi7",
+                             icon_url="https://avatars.githubusercontent.com/u/102146744?v=4")
+        #embed.description = ""
+        embed.add_field(name=f"Rank {top15[0][0]}", value=f"Name: **{top15[0][1]}** \n:crossed_swords: t4 kills: {top15[0][2]} | t5 kills: {top15[0][3]}\n:skull: deads: {top15[0][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[1][0]}", value=f"Name: **{top15[1][1]}** \n:crossed_swords: t4 kills: {top15[1][2]} | t5 kills: {top15[1][3]}\n:skull: deads: {top15[1][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[2][0]}", value=f"Name: **{top15[2][1]}** \n:crossed_swords: t4 kills: {top15[2][2]} | t5 kills: {top15[2][3]}\n:skull: deads: {top15[2][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[3][0]}", value=f"Name: **{top15[3][1]}** \n:crossed_swords: t4 kills: {top15[3][2]} | t5 kills: {top15[3][3]}\n:skull: deads: {top15[3][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[4][0]}", value=f"Name: **{top15[4][1]}** \n:crossed_swords: t4 kills: {top15[4][2]} | t5 kills: {top15[4][3]}\n:skull: deads: {top15[4][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[5][0]}", value=f"Name: **{top15[5][1]}** \n:crossed_swords: t4 kills: {top15[5][2]} | t5 kills: {top15[5][3]}\n:skull: deads: {top15[5][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[6][0]}", value=f"Name: **{top15[6][1]}** \n:crossed_swords: t4 kills: {top15[6][2]} | t5 kills: {top15[6][3]}\n:skull: deads: {top15[6][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[7][0]}", value=f"Name: **{top15[7][1]}** \n:crossed_swords: t4 kills: {top15[7][2]} | t5 kills: {top15[7][3]}\n:skull: deads: {top15[7][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[8][0]}", value=f"Name: **{top15[8][1]}** \n:crossed_swords: t4 kills: {top15[8][2]} | t5 kills: {top15[8][3]}\n:skull: deads: {top15[8][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[9][0]}", value=f"Name: **{top15[9][1]}** \n:crossed_swords: t4 kills: {top15[9][2]} | t5 kills: {top15[9][3]}\n:skull: deads: {top15[9][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[10][0]}", value=f"Name: **{top15[10][1]}** \n:crossed_swords: t4 kills: {top15[10][2]} | t5 kills: {top15[10][3]}\n:skull: deads: {top15[10][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[11][0]}", value=f"Name: **{top15[11][1]}** \n:crossed_swords: t4 kills: {top15[11][2]} | t5 kills: {top15[11][3]}\n:skull: deads: {top15[11][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[12][0]}", value=f"Name: **{top15[12][1]}** \n:crossed_swords: t4 kills: {top15[12][2]} | t5 kills: {top15[12][3]}\n:skull: deads: {top15[12][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[13][0]}", value=f"Name: **{top15[13][1]}** \n:crossed_swords: t4 kills: {top15[13][2]} | t5 kills: {top15[13][3]}\n:skull: deads: {top15[13][4]}",   inline=False)
+        embed.add_field(name=f"Rank {top15[14][0]}", value=f"Name: **{top15[14][1]}** \n:crossed_swords: t4 kills: {top15[14][2]} | t5 kills: {top15[14][3]}\n:skull: deads: {top15[14][4]}",   inline=False)
+        embed.set_footer(text=f"Requested by @{author.name}")
+        if channel:
+            await channel.send(embed=embed)
+    else:
+        if channel:
+            await channel.send("Error", ephemeral=True)
+
+
 @bot.hybrid_command(name="stats")
 async def stats(ctx):
     """
@@ -180,6 +222,8 @@ async def on_message(msg: discord.Message):
                await send_id_stats(gov_id= id_from_db, author_id=author_id, channel=channel, author=author)
             else:
                 await channel.send(content = "Your ID has not been registered yet. Write 'stats <your id>' to save your ID before using 'stats'. (Example: stats 12345678)")
+        if request == "leaderboard":
+            await send_leaderboard(channel=channel, author=author)
     elif len(content) == 2:
         request = content[0].lower()
         id = content[1]
